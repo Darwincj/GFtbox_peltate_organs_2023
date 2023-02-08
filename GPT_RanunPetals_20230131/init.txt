@@ -1,0 +1,39 @@
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+
+        if m.globalProps.IFsetsoptions
+            m = setUpModelOptions( m, ...
+                'modelname', {'MODEL1',...  % Fig 4C, Cup-shaped model
+                              'MODEL2',...  % Fig 4E, Dichocarpum fargesii petal 
+                              'MODEL3',...  % Fig 4E, Asteropyrum cavaleriei petal
+                              'MODEL4',...  % Fig 4E, Coptis japanica petal
+                              'MODEL5',...  % Fig 4E, Trollius chinensis petal
+                              'MODEL6',...  % Fig 4E, Isopyrum anemonoides petal
+                              'MODEL7',...  % Fig 4E, Helleborus thibetanus petal
+                              'MODEL8',...  % Fig 4E, Isopyrum manshuricum petal
+                              'MODEL9',...  % Fig 4E, Oxygraphis glacialis petal
+                              'MODEL10',... % Fig 4H, Leptopyrum fumarioides petal
+                              'MODEL11',... % Fig 4J, Eranthis stellata petal
+                              'MODEL12',... % Fig 4K, Nigella integrifolia petal
+                              'MODEL13' ... % Fig 4L, Nigella nigellastrum petal
+                             }, 'MODEL11' ... % Model version name
+                ... % Add further lines for all the options that you want.
+            );
+        end
+
+        % Any further initialisation here.
+%         m = leaf_makesecondlayer( m, 'mode', 'latlong',...
+%                                      'hemisphere', 'n',...
+%                                      'subdivisions', 40,...
+%                                      'divisions', [16 8],...
+%                                      'add', true );
+                                 
+        m = leaf_plotoptions( m, 'bioAalpha', 0, ...
+                                 'highgradcolor2', [0.9, 0.1, 0.1],...
+                                 'lowgradcolor2',[0.9, 0.1, 0.1],...
+                                 'arrowthickness', 3 );
+    end
+    
+    OPTIONS = getModelOptions( m );
+    printModelOptions( m );
