@@ -1,0 +1,32 @@
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+
+        if m.globalProps.IFsetsoptions
+            m = setUpModelOptions( m, ...
+                'modelname', {'MODEL1',...  % Fig S13A, Simple leaf
+                              'MODEL2',...  % Fig S13B, Unifacial leaf
+                              'MODEL3',...  % Fig S13C, Peltate leaf
+                              'MODEL4',...  % Fig S13D, Simple petal
+                              'MODEL5',...  % Fig S13E, Peltately palmate compound leaf
+                              'MODEL6',...  % Fig S13F, Pinnate compound leaf
+                             }, 'MODEL6' ... % Model version name
+                ... % Add further lines for all the options that you want.
+            );
+        end
+
+        % Any further initialisation here.
+%         m = leaf_makesecondlayer( m, 'mode', 'latlong',...
+%                                      'hemisphere', 'n',...
+%                                      'subdivisions', 40,...
+%                                      'divisions', [16 8],...
+%                                      'add', true );
+                                 
+        m = leaf_plotoptions( m, 'bioAalpha', 0, ...
+                                 'highgradcolor2', [0.9, 0.1, 0.1],...
+                                 'lowgradcolor2',[0.9, 0.1, 0.1],...
+                                 'arrowthickness', 2 );
+    end
+    
+    OPTIONS = getModelOptions( m );
+    printModelOptions( m );
