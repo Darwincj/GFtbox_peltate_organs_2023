@@ -1,0 +1,33 @@
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+
+        if m.globalProps.IFsetsoptions
+            m = setUpModelOptions( m, ...
+                'modelname', {'MODEL1',...  % Fig 3C, S4B, Wildtype/Mock
+                              'MODEL2',...  % Fig 3C, S4B, AD/AB removed at the beginning
+                              'MODEL3',...  % Fig 3C, S4B, AD/AB removed at Phase I
+                              'MODEL4',...  % Fig 3C, S4B, AD/AB removed at Phase II
+                              'MODEL5',...  % Fig 3C, S4B, AD/AB removed at Phase III
+                             }, 'MODEL2' ... % Model version name
+                ... % Add further lines for all the options that you want.
+            );
+        end
+
+        % Any further initialisation here.
+        % setup latitudinal and longitudinal grid
+%         m = leaf_makesecondlayer( m, 'mode', 'latlong',...
+%                                      'hemisphere', 'n',...
+%                                      'subdivisions', 40,...
+%                                      'divisions', [16 8],...
+%                                      'add', true );
+                                 
+        % setup the arrow color of second polarity                          
+        m = leaf_plotoptions( m, 'bioAalpha', 0, ...
+                                 'highgradcolor2', [0.9, 0.1, 0.1],...
+                                 'lowgradcolor2',[0.9, 0.1, 0.1],...
+                                 'arrowthickness', 2 );
+    end
+    
+    OPTIONS = getModelOptions( m );
+    printModelOptions( m );
