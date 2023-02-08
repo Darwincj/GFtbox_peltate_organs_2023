@@ -1,0 +1,215 @@
+
+% In this section you may modify the mesh in any way that does not
+% alter the set of nodes.
+
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+        top = [0, 21];
+        center = [0, 20];
+        TOP = sqrt((m.nodes(:,1)-top(1)).^2+(m.nodes(:,2)-top(2)).^2);
+        RADII = sqrt((m.nodes(:,1)-center(1)).^2+(m.nodes(:,2)-center(2)).^2);
+        
+        
+        switch OPTIONS.modelname  
+            
+            case 'MODEL1'
+                left_tip0 = [-1,  0*10/39];
+                left_tip1 = [-1, 12*10/39];
+                left_tip2 = [-1, 24*10/39];
+                left_tip3 = [-1, 36*10/39];
+                left_tip4 = [-1, 48*10/39];
+                left_tip5 = [-1, 60*10/39];
+                left_tip6 = [-1, 72*10/39];
+                left_tip7 = [-1, 84*10/39];
+                left_tip_1 = [-1, -12*10/39];
+                left_tip_2 = [-1, -24*10/39];
+                left_tip_3 = [-1, -36*10/39];
+                left_tip_4 = [-1, -48*10/39];
+                left_tip_5 = [-1, -60*10/39];
+                right_tip0 = [1,  0*10/39];
+                right_tip1 = [1, 12*10/39];
+                right_tip2 = [1, 24*10/39];
+                right_tip3 = [1, 36*10/39];
+                right_tip4 = [1, 48*10/39];
+                right_tip5 = [1, 60*10/39];
+                right_tip6 = [1, 72*10/39];
+                right_tip7 = [1, 84*10/39];
+                right_tip_1 = [1, -12*10/39];
+                right_tip_2 = [1, -24*10/39];
+                right_tip_3 = [1, -36*10/39];
+                right_tip_4 = [1, -48*10/39];
+                right_tip_5 = [1, -60*10/39];
+        
+                LEFT_TIP0 = sqrt((m.nodes(:,1)-left_tip0(1)).^2+(m.nodes(:,2)-left_tip0(2)).^2);
+                LEFT_TIP1 = sqrt((m.nodes(:,1)-left_tip1(1)).^2+(m.nodes(:,2)-left_tip1(2)).^2);
+                LEFT_TIP2 = sqrt((m.nodes(:,1)-left_tip2(1)).^2+(m.nodes(:,2)-left_tip2(2)).^2);
+                LEFT_TIP3 = sqrt((m.nodes(:,1)-left_tip3(1)).^2+(m.nodes(:,2)-left_tip3(2)).^2);
+                LEFT_TIP4 = sqrt((m.nodes(:,1)-left_tip4(1)).^2+(m.nodes(:,2)-left_tip4(2)).^2);
+                LEFT_TIP5 = sqrt((m.nodes(:,1)-left_tip5(1)).^2+(m.nodes(:,2)-left_tip5(2)).^2);
+                LEFT_TIP6 = sqrt((m.nodes(:,1)-left_tip6(1)).^2+(m.nodes(:,2)-left_tip6(2)).^2);
+                LEFT_TIP7 = sqrt((m.nodes(:,1)-left_tip7(1)).^2+(m.nodes(:,2)-left_tip7(2)).^2);
+                LEFT_TIP_1 = sqrt((m.nodes(:,1)-left_tip_1(1)).^2+(m.nodes(:,2)-left_tip_1(2)).^2);
+                LEFT_TIP_2 = sqrt((m.nodes(:,1)-left_tip_2(1)).^2+(m.nodes(:,2)-left_tip_2(2)).^2);
+                LEFT_TIP_3 = sqrt((m.nodes(:,1)-left_tip_3(1)).^2+(m.nodes(:,2)-left_tip_3(2)).^2);
+                LEFT_TIP_4 = sqrt((m.nodes(:,1)-left_tip_4(1)).^2+(m.nodes(:,2)-left_tip_4(2)).^2);
+                LEFT_TIP_5 = sqrt((m.nodes(:,1)-left_tip_5(1)).^2+(m.nodes(:,2)-left_tip_5(2)).^2);
+                RIGHT_TIP0 = sqrt((m.nodes(:,1)-right_tip0(1)).^2+(m.nodes(:,2)-right_tip0(2)).^2);
+                RIGHT_TIP1 = sqrt((m.nodes(:,1)-right_tip1(1)).^2+(m.nodes(:,2)-right_tip1(2)).^2);
+                RIGHT_TIP2 = sqrt((m.nodes(:,1)-right_tip2(1)).^2+(m.nodes(:,2)-right_tip2(2)).^2);
+                RIGHT_TIP3 = sqrt((m.nodes(:,1)-right_tip3(1)).^2+(m.nodes(:,2)-right_tip3(2)).^2);
+                RIGHT_TIP4 = sqrt((m.nodes(:,1)-right_tip4(1)).^2+(m.nodes(:,2)-right_tip4(2)).^2);
+                RIGHT_TIP5 = sqrt((m.nodes(:,1)-right_tip5(1)).^2+(m.nodes(:,2)-right_tip5(2)).^2);
+                RIGHT_TIP6 = sqrt((m.nodes(:,1)-right_tip6(1)).^2+(m.nodes(:,2)-right_tip6(2)).^2);
+                RIGHT_TIP7 = sqrt((m.nodes(:,1)-right_tip7(1)).^2+(m.nodes(:,2)-right_tip7(2)).^2);
+                RIGHT_TIP_1 = sqrt((m.nodes(:,1)-right_tip_1(1)).^2+(m.nodes(:,2)-right_tip_1(2)).^2);
+                RIGHT_TIP_2 = sqrt((m.nodes(:,1)-right_tip_2(1)).^2+(m.nodes(:,2)-right_tip_2(2)).^2);
+                RIGHT_TIP_3 = sqrt((m.nodes(:,1)-right_tip_3(1)).^2+(m.nodes(:,2)-right_tip_3(2)).^2);
+                RIGHT_TIP_4 = sqrt((m.nodes(:,1)-right_tip_4(1)).^2+(m.nodes(:,2)-right_tip_4(2)).^2);
+                RIGHT_TIP_5 = sqrt((m.nodes(:,1)-right_tip_5(1)).^2+(m.nodes(:,2)-right_tip_5(2)).^2);
+        
+                id_top_p(TOP<0.1)=1;
+                id_tip1_p((LEFT_TIP0<0.1)|(RIGHT_TIP0<0.1)|...
+                          (LEFT_TIP1<0.1)|(RIGHT_TIP1<0.1)|...
+                          (LEFT_TIP2<0.1)|(RIGHT_TIP2<0.1)|...
+                          (LEFT_TIP3<0.1)|(RIGHT_TIP3<0.1)|...
+                          (LEFT_TIP4<0.1)|(RIGHT_TIP4<0.1)|...
+                          (LEFT_TIP5<0.1)|(RIGHT_TIP5<0.1)|...
+                          (LEFT_TIP6<0.1)|(RIGHT_TIP6<0.1)|...
+                          (LEFT_TIP7<0.1)|(RIGHT_TIP7<0.1)|...
+                          (LEFT_TIP_1<0.1)|(RIGHT_TIP_1<0.1)|...
+                          (LEFT_TIP_2<0.1)|(RIGHT_TIP_2<0.1)|...
+                          (LEFT_TIP_3<0.1)|(RIGHT_TIP_3<0.1)|...
+                          (LEFT_TIP_4<0.1)|(RIGHT_TIP_4<0.1)|...
+                          (LEFT_TIP_5<0.1)|(RIGHT_TIP_5<0.1)...
+                         )=1;
+                     
+                id_p_p((LEFT_TIP0<0.48)|(RIGHT_TIP0<0.48)|... % ADD
+                       (LEFT_TIP1<0.48)|(RIGHT_TIP1<0.48)|...
+                  (LEFT_TIP2<0.48)|(RIGHT_TIP2<0.48)|...
+                  (LEFT_TIP3<0.48)|(RIGHT_TIP3<0.48)|...
+                  (LEFT_TIP4<0.48)|(RIGHT_TIP4<0.48)|...
+                  (LEFT_TIP5<0.48)|(RIGHT_TIP5<0.48)|...
+                  (LEFT_TIP6<0.48)|(RIGHT_TIP6<0.48)|...
+                  (LEFT_TIP7<0.48)|(RIGHT_TIP7<0.48)|...
+                  (LEFT_TIP_1<0.48)|(RIGHT_TIP_1<0.48)|...
+                  (LEFT_TIP_2<0.48)|(RIGHT_TIP_2<0.48)|...
+                  (LEFT_TIP_3<0.48)|(RIGHT_TIP_3<0.48)|...
+                  (LEFT_TIP_4<0.48)|(RIGHT_TIP_4<0.48)|...
+                  (LEFT_TIP_5<0.48)|(RIGHT_TIP_5<0.48)...
+                  )=1;
+            
+            case 'MODEL2'
+            
+            case 'MODEL3'
+            
+            case 'MODEL4'
+        
+        end
+        
+        
+        left_tip1 = [-1,  (20-40/39)];
+        left_tip2 = [-1,  10];
+        left_tip3 = [-1,  0];
+        left_tip4 = [-1, -(10+200/39)];
+        right_tip1 = [1,  (20-40/39)];
+        right_tip2 = [1,  10];
+        right_tip3 = [1,  0];
+        right_tip4 = [1, -(10+200/39)];
+        
+        LEFT_TIP1 = sqrt((m.nodes(:,1)-left_tip1(1)).^2+(m.nodes(:,2)-left_tip1(2)).^2);
+        LEFT_TIP2 = sqrt((m.nodes(:,1)-left_tip2(1)).^2+(m.nodes(:,2)-left_tip2(2)).^2);
+        LEFT_TIP3 = sqrt((m.nodes(:,1)-left_tip3(1)).^2+(m.nodes(:,2)-left_tip3(2)).^2);
+        LEFT_TIP4 = sqrt((m.nodes(:,1)-left_tip4(1)).^2+(m.nodes(:,2)-left_tip4(2)).^2);
+        RIGHT_TIP1 = sqrt((m.nodes(:,1)-right_tip1(1)).^2+(m.nodes(:,2)-right_tip1(2)).^2);
+        RIGHT_TIP2 = sqrt((m.nodes(:,1)-right_tip2(1)).^2+(m.nodes(:,2)-right_tip2(2)).^2);
+        RIGHT_TIP3 = sqrt((m.nodes(:,1)-right_tip3(1)).^2+(m.nodes(:,2)-right_tip3(2)).^2);
+        RIGHT_TIP4 = sqrt((m.nodes(:,1)-right_tip4(1)).^2+(m.nodes(:,2)-right_tip4(2)).^2);
+        
+        id_top_p(TOP<0.1)=1;
+        id_tip1_p((LEFT_TIP1<0.1)|(RIGHT_TIP1<0.1))=1;
+        id_tip2_p((LEFT_TIP2<0.1)|(RIGHT_TIP2<0.1))=1;
+        id_tip3_p((LEFT_TIP3<0.1)|(RIGHT_TIP3<0.1))=1;
+        id_tip4_p((LEFT_TIP4<0.1)|(RIGHT_TIP4<0.1))=1;
+        
+        id_tl_p(TOP<0.35)=1;                            % top tendril (TL)
+        id_ll_1_p((LEFT_TIP1<0.5)|(RIGHT_TIP1<0.5))=1;  % lateral leaflet 1 (LL1)
+        id_ll_2_p((LEFT_TIP2<0.5)|(RIGHT_TIP2<0.5))=1;  % lateral leaflet 2 (LL2)
+        id_ll_3_p((LEFT_TIP3<0.5)|(RIGHT_TIP3<0.5))=1;  % lateral leaflet 3 (LL3)
+        id_ll_4_p((LEFT_TIP4<0.5)|(RIGHT_TIP4<0.5))=1;
+%         id_stipule_p((LEFT_TIP4<=0.5)|(RIGHT_TIP4<=0.5))=1;  % stipule
+        
+        id_p_p((id_tl_p)|(id_ll_1_p)|(id_ll_2_p)|(id_ll_3_p)|(id_ll_4_p))=1; % ADD?
+        
+        id_boundary_p(((abs(m.nodes(:,1))>0.6)&(m.nodes(:,2)<20)&(~id_ll_1_p)&(~id_ll_2_p)&(~id_ll_3_p)&(~id_ll_4_p))|...
+                      ((RADII>0.6)&(m.nodes(:,2)>=20)&(~id_tl_p)))=1;
+        
+        id_midvein_p((abs(m.nodes(:,1))<0.05)&(m.nodes(:,2)<20))=1;
+        id_rachis_p((~id_boundary_p)&(~id_tl_p)&(~id_ll_4_p)&...
+                    (~id_ll_1_p)&(~id_ll_2_p)&(~id_ll_3_p))=1;
+        
+        % base of mesh was fixed        
+        id_base_p(m.nodes(:,2)==min(m.nodes(:,2)))=1;
+        m = leaf_fix_vertex( m, 'vertex', find(id_base_p==1), 'dfs', 'y');  
+        
+    end
+    
+    
+    % @@ PRN Polarity Regulatory Network
+    % Pre-growth stage for generating the polarity field
+    
+    if (realtime <= 3 - 0.0001)
+        
+        % The proximodistal polarity field was established by a diffusible morphogen POL
+        % genereted from the source and removed at the sink.
+        switch OPTIONS.modelname
+            
+            case 'MODEL1'
+                P(id_midvein_p == 1) = 1;  % source
+                P((id_tip1_p==1)|(id_tip2_p==1)|(id_tip3_p==1)|(id_tip4_p==1)|(id_top_p==1)) = 0; % sink
+                m.morphogenclamp((id_tip1_p==1)|(id_tip2_p==1)|...
+                                 (id_tip3_p==1)|(id_tip4_p==1)|...
+                                 (id_top_p==1)|(id_midvein_p==1), polariser_i) = 1;
+            
+            case 'MODEL2'
+            
+            case 'MODEL3'
+            
+            case 'MODEL4'
+        end
+        
+%         P = id_base_p + - 0.5* (id_tip1_p + id_tip2_p + id_tip3_p + id_tip4_p + id_top_p);
+%         P(id_base_p == 1) = 1;
+        
+        m = leaf_mgen_conductivity(m, 'POLARISER', 0.1);
+        m = leaf_mgen_absorption(m, 'POLARISER', 0.01);
+        
+    end
+    
+    % @@ KRN Growth Rate Regulatory Network
+    % kapar/kbpar: growth rate paralle to the proximodistal polarity field
+    % kaper/kbper: growth rate perpendicular to the proximodistal polarity field
+    
+    if (realtime > 3 - 0.0001) && (realtime <= 20 - 0.0001)
+        
+        switch OPTIONS.modelname
+            
+            case 'MODEL1'
+                kapar_p = (0.01 + 0.3*id_tl_p + 0.4*id_ll_1_p + 0.45*id_ll_2_p + 0.35*id_ll_3_p + 0.4*id_ll_4_p)...
+                          .* inh(10, id_boundary_p);
+                kaper_p = (0.001 + 0.25*id_ll_3_p + 0.3*id_ll_4_p)...
+                          .* inh(10, id_boundary_p);
+                kbpar_p = kapar_p;
+                kbper_p = kaper_p;
+                knor_p  = 0;        % thickness of the canvas
+                
+            case 'MODEL2'
+            
+            case 'MODEL3'
+            
+            case 'MODEL4'
+        end
+
+        karea_p = kapar_p + kaper_p;   
+        
+    end 
