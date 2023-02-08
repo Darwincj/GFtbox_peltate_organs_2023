@@ -1,0 +1,30 @@
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+
+        if m.globalProps.IFsetsoptions
+            m = setUpModelOptions( m, 'modelname', {...
+                   'MODEL1',...  % Fig S11,A Flat petal
+                   'MODEL2',...  % Fig S11,B Spurred petal
+                   'MODEL3',...  % Fig S11,C Pouched petal
+                   'MODEL4',...  % Fig S11,D Ruffled petal
+                   'MODEL5' ...   % Fig S11,E Left-right asymmetrical
+                   }, 'MODEL4' ... % Model version name
+                ... % Add further lines for all the options that you want.
+            );
+        end
+
+        % Any further initialisation here.
+        % to plot adaxial factor on the A side and abaxial factor on the B side:
+%         m = leaf_plotoptions( m, 'morphogenA', 'ID_ADAXIAL', 'morphogenB', 'ID_ABAXIAL' ); 
+%         m = leaf_makesecondlayer( m, 'mode', 'rectgrid', 'divisions', [10 10], 'add', true );
+%         m = leaf_plotoptions( m, 'bioAalpha', 0 );
+%         
+%         m = leaf_plotoptions( m, 'bioAalpha', 0,...                          
+%                                  'highgradcolor', [0.9, 0.1, 0.1],...         
+%                                  'lowgradcolor',[0.9, 0.1, 0.1],...
+%                                  'arrowthickness', 2 );  
+    end
+    
+    OPTIONS = getModelOptions( m );
+    printModelOptions( m );

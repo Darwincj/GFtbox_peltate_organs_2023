@@ -1,0 +1,383 @@
+function [m,result] = gpt_curvedorgans_20230130( m, varargin )
+%[m,result] = gpt_curvedorgans_20230130( m, varargin )
+%   Morphogen interaction function.
+%   Written at 2023-01-30 21:28:24.
+%   GFtbox revision 20210716, 2020-07-16 20:00.
+
+% The user may edit any part of this function lying between lines that
+% begin "%%% USER CODE" and "%%% END OF USER CODE".  Those lines themselves
+% delimiters themselves must not be moved, edited, deleted, or added.
+
+    result = [];
+    if isempty(m), return; end
+
+    setGlobals();
+    
+    % Handle new-style callbacks.
+    if nargin > 1
+        if exist('ifCallbackHandler','file')==2
+            [m,result] = ifCallbackHandler( m, varargin{:} );
+        end
+        return;
+    end
+
+    fprintf( 1, '%s found in %s\n', mfilename(), which(mfilename()) );
+
+    realtime = m.globalDynamicProps.currenttime;
+    dt = m.globalProps.timestep;
+
+%%% USER CODE: INITIALISATION
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+
+        if m.globalProps.IFsetsoptions
+            m = setUpModelOptions( m, 'modelname', {...
+                   'MODEL1',...  % Fig S11,A Flat petal
+                   'MODEL2',...  % Fig S11,B Spurred petal
+                   'MODEL3',...  % Fig S11,C Pouched petal
+                   'MODEL4',...  % Fig S11,D Ruffled petal
+                   'MODEL5' ...   % Fig S11,E Left-right asymmetrical
+                   }, 'MODEL4' ... % Model version name
+                ... % Add further lines for all the options that you want.
+            );
+        end
+
+        % Any further initialisation here.
+        % to plot adaxial factor on the A side and abaxial factor on the B side:
+%         m = leaf_plotoptions( m, 'morphogenA', 'ID_ADAXIAL', 'morphogenB', 'ID_ABAXIAL' ); 
+%         m = leaf_makesecondlayer( m, 'mode', 'rectgrid', 'divisions', [10 10], 'add', true );
+%         m = leaf_plotoptions( m, 'bioAalpha', 0 );
+%         
+%         m = leaf_plotoptions( m, 'bioAalpha', 0,...                          
+%                                  'highgradcolor', [0.9, 0.1, 0.1],...         
+%                                  'lowgradcolor',[0.9, 0.1, 0.1],...
+%                                  'arrowthickness', 2 );  
+    end
+    
+    OPTIONS = getModelOptions( m );
+    printModelOptions( m );
+%%% END OF USER CODE: INITIALISATION
+
+%%% SECTION 1: ACCESSING MORPHOGENS AND TIME.
+%%% AUTOMATICALLY GENERATED CODE: DO NOT EDIT.
+
+% Each call of getMgenLevels below returns four results:
+% XXX_i is the index of the morphogen called XXX.
+% XXX_p is the vector of all of its values.
+% XXX_a is its mutation level.
+% XXX_l is the "effective" level of the morphogen, i.e. XXX_p*XXX_a.
+% In SECTION 3 of the automatically generated code, all of the XXX_p values
+% will be copied back into the mesh.
+
+    polariser_i = FindMorphogenRole( m, 'POLARISER' );
+    P = m.morphogens(:,polariser_i);
+    [kapar_i,kapar_p,kapar_a,kapar_l] = getMgenLevels( m, 'KAPAR' );  %#ok<ASGLU>
+    [kaper_i,kaper_p,kaper_a,kaper_l] = getMgenLevels( m, 'KAPER' );  %#ok<ASGLU>
+    [kbpar_i,kbpar_p,kbpar_a,kbpar_l] = getMgenLevels( m, 'KBPAR' );  %#ok<ASGLU>
+    [kbper_i,kbper_p,kbper_a,kbper_l] = getMgenLevels( m, 'KBPER' );  %#ok<ASGLU>
+    [knor_i,knor_p,knor_a,knor_l] = getMgenLevels( m, 'KNOR' );  %#ok<ASGLU>
+    [strainret_i,strainret_p,strainret_a,strainret_l] = getMgenLevels( m, 'STRAINRET' );  %#ok<ASGLU>
+    [arrest_i,arrest_p,arrest_a,arrest_l] = getMgenLevels( m, 'ARREST' );  %#ok<ASGLU>
+    [id_base_i,id_base_p,id_base_a,id_base_l] = getMgenLevels( m, 'ID_BASE' );  %#ok<ASGLU>
+    [id_add_i,id_add_p,id_add_a,id_add_l] = getMgenLevels( m, 'ID_ADD' );  %#ok<ASGLU>
+    [id_margin_i,id_margin_p,id_margin_a,id_margin_l] = getMgenLevels( m, 'ID_MARGIN' );  %#ok<ASGLU>
+    [id_dist_i,id_dist_p,id_dist_a,id_dist_l] = getMgenLevels( m, 'ID_DIST' );  %#ok<ASGLU>
+    [id_stk_i,id_stk_p,id_stk_a,id_stk_l] = getMgenLevels( m, 'ID_STK' );  %#ok<ASGLU>
+    [id_bla_i,id_bla_p,id_bla_a,id_bla_l] = getMgenLevels( m, 'ID_BLA' );  %#ok<ASGLU>
+    [s_bla_i,s_bla_p,s_bla_a,s_bla_l] = getMgenLevels( m, 'S_BLA' );  %#ok<ASGLU>
+    [id_adaxial_i,id_adaxial_p,id_adaxial_a,id_adaxial_l] = getMgenLevels( m, 'ID_ADAXIAL' );  %#ok<ASGLU>
+    [id_abaxial_i,id_abaxial_p,id_abaxial_a,id_abaxial_l] = getMgenLevels( m, 'ID_ABAXIAL' );  %#ok<ASGLU>
+    [karea_i,karea_p,karea_a,karea_l] = getMgenLevels( m, 'KAREA' );  %#ok<ASGLU>
+    [id_midvein_i,id_midvein_p,id_midvein_a,id_midvein_l] = getMgenLevels( m, 'ID_MIDVEIN' );  %#ok<ASGLU>
+    [s_midvein_i,s_midvein_p,s_midvein_a,s_midvein_l] = getMgenLevels( m, 'S_MIDVEIN' );  %#ok<ASGLU>
+    [id_tip_i,id_tip_p,id_tip_a,id_tip_l] = getMgenLevels( m, 'ID_TIP' );  %#ok<ASGLU>
+    [id_org_i,id_org_p,id_org_a,id_org_l] = getMgenLevels( m, 'ID_ORG' );  %#ok<ASGLU>
+    [s_add_i,s_add_p,s_add_a,s_add_l] = getMgenLevels( m, 'S_ADD' );  %#ok<ASGLU>
+
+% Mesh type: lobes
+%            base: 0
+%   circumference: 0
+%        cylinder: 0
+%          height: 2
+% innercircumference: 0
+%          layers: 0
+%           lobes: 1
+%             new: 1
+%          radius: 2
+%      randomness: 0.1
+%           rings: 12
+%          strips: 12
+%       thickness: 0
+
+%            Morphogen    Diffusion   Decay   Dilution   Mutant
+%            --------------------------------------------------
+%                KAPAR         ----    ----       ----     ----
+%                KAPER         ----    ----       ----     ----
+%                KBPAR         ----    ----       ----     ----
+%                KBPER         ----    ----       ----     ----
+%                 KNOR         ----    ----       ----     ----
+%            POLARISER          0.1    0.01       ----     ----
+%            STRAINRET         ----    ----       ----     ----
+%               ARREST         ----    ----       ----     ----
+%              ID_BASE         ----    ----       ----     ----
+%               ID_ADD         ----    ----       ----     ----
+%            ID_MARGIN         ----    ----       ----     ----
+%              ID_DIST         ----    ----       ----     ----
+%               ID_STK         ----    ----       ----     ----
+%               ID_BLA         ----    ----       ----     ----
+%                S_BLA         0.02    ----       ----     ----
+%           ID_ADAXIAL         ----    ----       ----     ----
+%           ID_ABAXIAL         ----    ----       ----     ----
+%                KAREA         ----    ----       ----     ----
+%           ID_MIDVEIN         ----    ----       ----     ----
+%            S_MIDVEIN        0.002    ----       ----     ----
+%               ID_TIP         ----    ----       ----     ----
+%               ID_ORG         ----    ----       ----     ----
+%                S_ADD         0.05    ----       ----     ----
+
+
+%%% USER CODE: MORPHOGEN INTERACTIONS
+
+% In this section you may modify the mesh in any way that does not
+% alter the set of nodes.
+
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+        center = [0, 0];
+        RADII = sqrt((m.nodes(:,1)-center(1)).^2+(m.nodes(:,2)-center(2)).^2);
+
+        tip = [0, 2];
+        radii_tip = sqrt((m.nodes(:,1)-tip(1)).^2 + (m.nodes(:,2)-tip(2)).^2);
+        
+        id_stk_p(m.nodes(:,2) < -0.5) = 1;
+        id_bla_p(~id_stk_p) = 1;
+        s_bla_p = id_bla_p;
+        m.morphogenclamp((id_bla_p == 1), s_bla_i) = 1;
+        m = leaf_mgen_conductivity(m, 'S_BLA', 0.02);
+        m = leaf_mgen_absorption(m, 'S_BLA', 0.001);
+        
+        id_midvein_p(abs(m.nodes(:,1)) <= 0.01) = 1;
+        s_midvein_p = id_midvein_p;
+        m.morphogenclamp(id_midvein_p==1, s_midvein_i) = 1;
+        m = leaf_mgen_conductivity( m, 'S_MIDVEIN', 0.002 );
+        m = leaf_mgen_absorption( m, 'S_MIDVEIN', 0.0001 );
+        
+%         id_prox_p(m.nodes(:,2)==min(m.nodes(:,2))) = 1;
+        id_dist_p((RADII > 1.95)&(m.nodes(:,2) > 0)) = 1;
+        id_tip_p(radii_tip < 0.05)=1;
+        id_org_p(RADII < 0.05) = 1;
+        
+%         id_adaxial_p(:) = 1;
+%         id_abaxial_p(:) = 1;
+        
+        switch OPTIONS.modelname  
+            
+            case 'MODEL1'
+                
+                id_add_p(:) = 0;
+  
+            case 'MODEL2'
+                
+                id_add_p(RADII<0.1)=1;
+                
+            case 'MODEL3'
+                
+                id_add_p = (1-0.5*RADII).^1;
+                
+            case 'MODEL4'
+                
+                id_add_p = (1 + 0.01*RADII).^20;
+                id_add_p(m.nodes(:,2) < -0.5) = 1;
+                
+            case 'MODEL5'
+                
+                id_add_p = (max(m.nodes(:,1))-m.nodes(:,1))/...
+                           (max(m.nodes(:,1))-min(m.nodes(:,1)));
+                
+        end
+        
+        s_add_p = id_add_p;
+        m.morphogenclamp((id_add_p==1), s_add_i) = 1;
+        m = leaf_mgen_conductivity(m, 'S_ADD', 0.05);
+        m = leaf_mgen_absorption(m, 'S_ADD', 0.001);
+
+        % base of mesh was fixed  
+        id_base_p(m.nodes(:,2)==min(m.nodes(:,2)))=1;
+        m = leaf_fix_vertex( m, 'vertex', find(id_base_p==1), 'dfs', 'y');
+    
+    end
+    
+    % @@ PRN Polarity Regulatory Network
+    % Pre-growth stage for generating the polarity field
+    if (realtime <= 3 - 0.0001)
+        
+        % The proximodistal polarity field was established by a diffusible morphogen POL
+        % genereted from the source and removed at the sink.
+        switch OPTIONS.modelname
+            
+            case {'MODEL1','MODEL3','MODEL4'}
+                
+                P(id_base_p == 1) = 1;  % source
+                P(id_dist_p == 1) = 0;  % sink
+                m.morphogenclamp((id_base_p==1)|(id_dist_p==1), polariser_i) = 1;
+        
+            case 'MODEL2'
+                
+                P((id_base_p == 1)|(id_org_p == 1)) = 1;  % source
+                P(id_dist_p == 1) = 0;  % sink
+                m.morphogenclamp((id_base_p==1)|(id_dist_p==1)|(id_org_p==1), polariser_i) = 1;
+                             
+            case 'MODEL5'
+                
+                P(id_base_p == 1) = 1;  % source
+                P(id_tip_p == 1) = 0;   % sink
+                m.morphogenclamp((id_base_p==1)|(id_tip_p==1), polariser_i) = 1;
+                
+        end
+        
+        m = leaf_mgen_conductivity(m, 'POLARISER', 0.1);
+        m = leaf_mgen_absorption(m, 'POLARISER', 0.01);
+        
+    end
+    
+    % @@ KRN Growth Rate Regulatory Network
+    % kapar/kbpar: growth rate paralle to the proximodistal polarity field
+    % kaper/kbper: growth rate perpendicular to the proximodistal polarity field
+    % knor: growth rate orthogonal to the canvas
+    
+    if (realtime > 3 - 0.0001) && (realtime <= 20 - 0.0001)
+        
+        switch OPTIONS.modelname
+            
+            case 'MODEL1'
+                
+                kapar_p = 0.15 * pro(0.1, id_stk_p);
+                kaper_p = 0.05 * pro(1.2, s_bla_p).* inh(10,id_stk_p);
+                kbpar_p = kapar_p;
+                kbper_p = kaper_p;
+                
+            case 'MODEL2'
+                
+                % set the vakue of Bowl Z to 0.1 in the GUI 
+                kapar_p = 0.1 * inh(2, id_stk_p) + 0.5 * s_add_p;
+                kaper_p = 0.03 * inh(2, id_stk_p) .* pro(0.5, s_bla_p);
+                kbpar_p = kapar_p;
+                kbper_p = kaper_p;
+                 
+            case 'MODEL3'
+                
+                kapar_p = 0.1 * pro(1,id_add_p) .* pro(0.3, id_stk_p);
+                kaper_p = 0.1 * pro(1,id_add_p) .* inh(10, id_stk_p);
+                kbpar_p = kapar_p * 1.05;
+                kbper_p = kaper_p * 1.05;
+                
+            case 'MODEL4'
+                
+                kapar_p = 0.1 * pro(1,id_add_p) .* pro(0.3, id_stk_p);
+                kaper_p = 0.08 * pro(1,id_add_p) .* inh(10, id_stk_p);
+                kbpar_p = kapar_p * 1.05;
+                kbper_p = kaper_p * 1.05;
+                
+            case 'MODEL5'
+                
+                kapar_p(:) = 0.15 * pro(0.75, id_add_p) .* pro(0.4, s_midvein_p);
+                kaper_p(:) = 0.1 * pro(0.5, id_add_p) .* inh(10, id_stk_p);
+                kbpar_p(:) = kapar_p;
+                kbper_p(:) = kaper_p;
+                
+        end 
+        
+        knor_p = 0;
+        karea_p = kapar_p + kaper_p;
+       
+    end 
+%%% END OF USER CODE: MORPHOGEN INTERACTIONS
+
+%%% SECTION 3: INSTALLING MODIFIED VALUES BACK INTO MESH STRUCTURE
+%%% AUTOMATICALLY GENERATED CODE: DO NOT EDIT.
+    m.morphogens(:,polariser_i) = P;
+    m.morphogens(:,kapar_i) = kapar_p;
+    m.morphogens(:,kaper_i) = kaper_p;
+    m.morphogens(:,kbpar_i) = kbpar_p;
+    m.morphogens(:,kbper_i) = kbper_p;
+    m.morphogens(:,knor_i) = knor_p;
+    m.morphogens(:,strainret_i) = strainret_p;
+    m.morphogens(:,arrest_i) = arrest_p;
+    m.morphogens(:,id_base_i) = id_base_p;
+    m.morphogens(:,id_add_i) = id_add_p;
+    m.morphogens(:,id_margin_i) = id_margin_p;
+    m.morphogens(:,id_dist_i) = id_dist_p;
+    m.morphogens(:,id_stk_i) = id_stk_p;
+    m.morphogens(:,id_bla_i) = id_bla_p;
+    m.morphogens(:,s_bla_i) = s_bla_p;
+    m.morphogens(:,id_adaxial_i) = id_adaxial_p;
+    m.morphogens(:,id_abaxial_i) = id_abaxial_p;
+    m.morphogens(:,karea_i) = karea_p;
+    m.morphogens(:,id_midvein_i) = id_midvein_p;
+    m.morphogens(:,s_midvein_i) = s_midvein_p;
+    m.morphogens(:,id_tip_i) = id_tip_p;
+    m.morphogens(:,id_org_i) = id_org_p;
+    m.morphogens(:,s_add_i) = s_add_p;
+
+%%% USER CODE: FINALISATION
+
+% In this section you may modify the mesh in any way whatsoever.
+%%% END OF USER CODE: FINALISATION
+
+end
+
+function [m,result] = ifCallbackHandler( m, fn, varargin )
+    result = [];
+    if exist(fn,'file') ~= 2
+        return;
+    end
+    [m,result] = feval( fn, m, varargin{:} );
+end
+
+
+%%% USER CODE: SUBFUNCTIONS
+
+% Here you may write any functions of your own, that you want to call from
+% the interaction function, but never need to call from outside it.
+% Remember that they do not have access to any variables except those
+% that you pass as parameters, and cannot change anything except by
+% returning new values as results.
+% Whichever section they are called from, they must respect the same
+% restrictions on what modifications they are allowed to make to the mesh.
+
+% The GFtbox_..._Callback routines can be deleted if you do not use them.
+% Those that you retain will be automatically called by GFtbox at certain
+% points in the simulation cycle.
+% If you retain them, their headers specifying their arguments and results
+% must not be altered.
+
+function [m,result] = GFtbox_Precelldivision_Callback( m, ci ) %#ok<DEFNU>
+    result = [];
+    % Your code here.
+
+    % If a nonempty result is to be returned, it should be a struct
+    % with fields result.divide, result.dividepoint, and result.perpendicular.
+end
+
+function [m,result] = GFtbox_Postcelldivision_Callback( m, ci, cei, newci, newcei, oe1, oe2, ne1, ne2, ne3 ) %#ok<DEFNU>
+    result = [];
+    % Your code here.
+end
+
+function [m,result] = GFtbox_Postiterate_Callback( m ) %#ok<DEFNU>
+    result = [];
+    % Your code here.
+end
+
+function [m,result] = GFtbox_Preplot_Callback( m, theaxes ) %#ok<DEFNU>
+    result = [];
+    % Your code here.
+end
+
+function [m,result] = GFtbox_Postplot_Callback( m, theaxes ) %#ok<DEFNU>
+    result = [];
+    % Your code here.
+end
+

@@ -1,0 +1,155 @@
+
+% In this section you may modify the mesh in any way that does not
+% alter the set of nodes.
+
+    if (Steps(m)==0) && m.globalDynamicProps.doinit
+        % Put any code here that should only be performed at the start of
+        % the simulation.
+        center = [0, 0];
+        RADII = sqrt((m.nodes(:,1)-center(1)).^2+(m.nodes(:,2)-center(2)).^2);
+
+        tip = [0, 2];
+        radii_tip = sqrt((m.nodes(:,1)-tip(1)).^2 + (m.nodes(:,2)-tip(2)).^2);
+        
+        id_stk_p(m.nodes(:,2) < -0.5) = 1;
+        id_bla_p(~id_stk_p) = 1;
+        s_bla_p = id_bla_p;
+        m.morphogenclamp((id_bla_p == 1), s_bla_i) = 1;
+        m = leaf_mgen_conductivity(m, 'S_BLA', 0.02);
+        m = leaf_mgen_absorption(m, 'S_BLA', 0.001);
+        
+        id_midvein_p(abs(m.nodes(:,1)) <= 0.01) = 1;
+        s_midvein_p = id_midvein_p;
+        m.morphogenclamp(id_midvein_p==1, s_midvein_i) = 1;
+        m = leaf_mgen_conductivity( m, 'S_MIDVEIN', 0.002 );
+        m = leaf_mgen_absorption( m, 'S_MIDVEIN', 0.0001 );
+        
+%         id_prox_p(m.nodes(:,2)==min(m.nodes(:,2))) = 1;
+        id_dist_p((RADII > 1.95)&(m.nodes(:,2) > 0)) = 1;
+        id_tip_p(radii_tip < 0.05)=1;
+        id_org_p(RADII < 0.05) = 1;
+        
+%         id_adaxial_p(:) = 1;
+%         id_abaxial_p(:) = 1;
+        
+        switch OPTIONS.modelname  
+            
+            case 'MODEL1'
+                
+                id_add_p(:) = 0;
+  
+            case 'MODEL2'
+                
+                id_add_p(RADII<0.1)=1;
+                
+            case 'MODEL3'
+                
+                id_add_p = (1-0.5*RADII).^1;
+                
+            case 'MODEL4'
+                
+                id_add_p = (1 + 0.01*RADII).^20;
+                id_add_p(m.nodes(:,2) < -0.5) = 1;
+                
+            case 'MODEL5'
+                
+                id_add_p = (max(m.nodes(:,1))-m.nodes(:,1))/...
+                           (max(m.nodes(:,1))-min(m.nodes(:,1)));
+                
+        end
+        
+        s_add_p = id_add_p;
+        m.morphogenclamp((id_add_p==1), s_add_i) = 1;
+        m = leaf_mgen_conductivity(m, 'S_ADD', 0.05);
+        m = leaf_mgen_absorption(m, 'S_ADD', 0.001);
+
+        % base of mesh was fixed  
+        id_base_p(m.nodes(:,2)==min(m.nodes(:,2)))=1;
+        m = leaf_fix_vertex( m, 'vertex', find(id_base_p==1), 'dfs', 'y');
+    
+    end
+    
+    % @@ PRN Polarity Regulatory Network
+    % Pre-growth stage for generating the polarity field
+    if (realtime <= 3 - 0.0001)
+        
+        % The proximodistal polarity field was established by a diffusible morphogen POL
+        % genereted from the source and removed at the sink.
+        switch OPTIONS.modelname
+            
+            case {'MODEL1','MODEL3','MODEL4'}
+                
+                P(id_base_p == 1) = 1;  % source
+                P(id_dist_p == 1) = 0;  % sink
+                m.morphogenclamp((id_base_p==1)|(id_dist_p==1), polariser_i) = 1;
+        
+            case 'MODEL2'
+                
+                P((id_base_p == 1)|(id_org_p == 1)) = 1;  % source
+                P(id_dist_p == 1) = 0;  % sink
+                m.morphogenclamp((id_base_p==1)|(id_dist_p==1)|(id_org_p==1), polariser_i) = 1;
+                             
+            case 'MODEL5'
+                
+                P(id_base_p == 1) = 1;  % source
+                P(id_tip_p == 1) = 0;   % sink
+                m.morphogenclamp((id_base_p==1)|(id_tip_p==1), polariser_i) = 1;
+                
+        end
+        
+        m = leaf_mgen_conductivity(m, 'POLARISER', 0.1);
+        m = leaf_mgen_absorption(m, 'POLARISER', 0.01);
+        
+    end
+    
+    % @@ KRN Growth Rate Regulatory Network
+    % kapar/kbpar: growth rate paralle to the proximodistal polarity field
+    % kaper/kbper: growth rate perpendicular to the proximodistal polarity field
+    % knor: growth rate orthogonal to the canvas
+    
+    if (realtime > 3 - 0.0001) && (realtime <= 20 - 0.0001)
+        
+        switch OPTIONS.modelname
+            
+            case 'MODEL1'
+                
+                kapar_p = 0.15 * pro(0.1, id_stk_p);
+                kaper_p = 0.05 * pro(1.2, s_bla_p).* inh(10,id_stk_p);
+                kbpar_p = kapar_p;
+                kbper_p = kaper_p;
+                
+            case 'MODEL2'
+                
+                % set the vakue of Bowl Z to 0.1 in the GUI 
+                kapar_p = 0.1 * inh(2, id_stk_p) + 0.5 * s_add_p;
+                kaper_p = 0.03 * inh(2, id_stk_p) .* pro(0.5, s_bla_p);
+                kbpar_p = kapar_p;
+                kbper_p = kaper_p;
+                 
+            case 'MODEL3'
+                
+                kapar_p = 0.1 * pro(1,id_add_p) .* pro(0.3, id_stk_p);
+                kaper_p = 0.1 * pro(1,id_add_p) .* inh(10, id_stk_p);
+                kbpar_p = kapar_p * 1.05;
+                kbper_p = kaper_p * 1.05;
+                
+            case 'MODEL4'
+                
+                kapar_p = 0.1 * pro(1,id_add_p) .* pro(0.3, id_stk_p);
+                kaper_p = 0.08 * pro(1,id_add_p) .* inh(10, id_stk_p);
+                kbpar_p = kapar_p * 1.05;
+                kbper_p = kaper_p * 1.05;
+                
+            case 'MODEL5'
+                
+                kapar_p(:) = 0.15 * pro(0.75, id_add_p) .* pro(0.4, s_midvein_p);
+                kaper_p(:) = 0.1 * pro(0.5, id_add_p) .* inh(10, id_stk_p);
+                kbpar_p(:) = kapar_p;
+                kbper_p(:) = kaper_p;
+                
+        end 
+        
+        knor_p = 0;
+        karea_p = kapar_p + kaper_p;
+       
+    end 
