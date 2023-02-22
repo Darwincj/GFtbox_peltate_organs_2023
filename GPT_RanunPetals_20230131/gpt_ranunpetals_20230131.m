@@ -33,19 +33,19 @@ function [m,result] = gpt_ranunpetals_20230131( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, ...
-                'modelname', {'MODEL1',...  % Fig 4C, Cup-shaped model
-                              'MODEL2',...  % Fig 4E, Dichocarpum fargesii petal 
-                              'MODEL3',...  % Fig 4E, Asteropyrum cavaleriei petal
-                              'MODEL4',...  % Fig 4E, Coptis japanica petal
-                              'MODEL5',...  % Fig 4E, Trollius chinensis petal
-                              'MODEL6',...  % Fig 4E, Isopyrum anemonoides petal
-                              'MODEL7',...  % Fig 4E, Helleborus thibetanus petal
-                              'MODEL8',...  % Fig 4E, Isopyrum manshuricum petal
-                              'MODEL9',...  % Fig 4E, Oxygraphis glacialis petal
-                              'MODEL10',... % Fig 4H, Leptopyrum fumarioides petal
-                              'MODEL11',... % Fig 4J, Eranthis stellata petal
-                              'MODEL12',... % Fig 4K, Nigella integrifolia petal
-                              'MODEL13' ... % Fig 4L, Nigella nigellastrum petal
+                'modelname', {'MODEL1',...  % Fig 5C, Cup-shaped model
+                              'MODEL2',...  % Fig 5E, Dichocarpum fargesii petal 
+                              'MODEL3',...  % Fig 5E, Asteropyrum cavaleriei petal
+                              'MODEL4',...  % Fig 5E, Coptis japanica petal
+                              'MODEL5',...  % Fig 5E, Trollius chinensis petal
+                              'MODEL6',...  % Fig 5E, Isopyrum anemonoides petal
+                              'MODEL7',...  % Fig 5E, Helleborus thibetanus petal
+                              'MODEL8',...  % Fig 5E, Isopyrum manshuricum petal
+                              'MODEL9',...  % Fig 5E, Oxygraphis glacialis petal
+                              'MODEL10',... % Fig 5H, Leptopyrum fumarioides petal
+                              'MODEL11',... % Fig 5J, Eranthis stellata petal
+                              'MODEL12',... % Fig 5K, Nigella integrifolia petal
+                              'MODEL13' ... % Fig 5L, Nigella nigellastrum petal
                              }, 'MODEL1' ... % Model version name
                 ... % Add further lines for all the options that you want.
             );
