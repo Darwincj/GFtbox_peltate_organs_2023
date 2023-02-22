@@ -33,11 +33,11 @@ function [m,result] = gpt_nigellapetal_20230131( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, ...
-                'modelname', {'MODEL1',...  % Fig 3C, S4B, Wildtype/Mock
-                              'MODEL2',...  % Fig 3C, S4B, AD/AB removed at the beginning
-                              'MODEL3',...  % Fig 3C, S4B, AD/AB removed at Phase I
-                              'MODEL4',...  % Fig 3C, S4B, AD/AB removed at Phase II
-                              'MODEL5',...  % Fig 3C, S4B, AD/AB removed at Phase III
+                'modelname', {'MODEL1',...  % Fig 3C, S5B, Wildtype/Mock
+                              'MODEL2',...  % Fig 3C, S5B, AD/AB removed at the beginning
+                              'MODEL3',...  % Fig 3C, S5B, AD/AB removed at Phase I
+                              'MODEL4',...  % Fig 3C, S5B, AD/AB removed at Phase II
+                              'MODEL5',...  % Fig 3C, S5B, AD/AB removed at Phase III
                              }, 'MODEL4' ... % Model version name
                 ... % Add further lines for all the options that you want.
             );
