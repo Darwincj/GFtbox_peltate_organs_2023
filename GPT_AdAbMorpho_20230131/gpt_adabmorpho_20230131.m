@@ -33,7 +33,7 @@ function [m,result] = gpt_adabmorpho_20230131( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, ...
-                'modelname', {'MODEL1',...  % Fig 4, S12
+                'modelname', {'MODEL1',...  % Fig 4, S11
                               'MODEL2',...  % 
                              }, 'MODEL1' ... % Model version name
                 ... % Add further lines for all the options that you want.
