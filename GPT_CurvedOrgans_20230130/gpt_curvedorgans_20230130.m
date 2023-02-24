@@ -33,11 +33,11 @@ function [m,result] = gpt_curvedorgans_20230130( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, 'modelname', {...
-                   'MODEL1',...  % Fig S13,A Flat petal
-                   'MODEL2',...  % Fig S13,B Spurred petal
-                   'MODEL3',...  % Fig S13,C Pouched petal
-                   'MODEL4',...  % Fig S13,D Ruffled petal
-                   'MODEL5' ...   % Fig S13,E Left-right asymmetrical
+                   'MODEL1',...  % Fig S12,A Flat petal
+                   'MODEL2',...  % Fig S12,B Spurred petal
+                   'MODEL3',...  % Fig S12,C Pouched petal
+                   'MODEL4',...  % Fig S12,D Ruffled petal
+                   'MODEL5' ...   % Fig S12,E Left-right asymmetrical
                    }, 'MODEL4' ... % Model version name
                 ... % Add further lines for all the options that you want.
             );
