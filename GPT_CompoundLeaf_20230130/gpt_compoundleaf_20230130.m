@@ -33,10 +33,10 @@ function [m,result] = gpt_compoundleaf_20230130( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, 'modelname', {...
-                   'MODEL1', ...  % Fig S14,D Leaf of Mimosa pudica
-                   'MODEL2', ...  % Fig S14,E Leaf of Medicago truncatula 
-                   'MODEL3', ...  % Fig S14,F Leaf of Cardamine hirsuta
-                   'MODEL4'  ...  % Fig S14,G Leaf of Pisum sativum
+                   'MODEL1', ...  % Fig S13,D Leaf of Mimosa pudica
+                   'MODEL2', ...  % Fig S13,E Leaf of Medicago truncatula 
+                   'MODEL3', ...  % Fig S13,F Leaf of Cardamine hirsuta
+                   'MODEL4'  ...  % Fig S13,G Leaf of Pisum sativum
                    }, 'MODEL4' ... % Model version name
                 ... % Add further lines for all the options that you want.
             );
