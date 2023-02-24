@@ -33,12 +33,12 @@ function [m,result] = gpt_basicleaftypes_20230131( m, varargin )
 
         if m.globalProps.IFsetsoptions
             m = setUpModelOptions( m, ...
-                'modelname', {'MODEL1',...  % Fig S15A, Simple leaf
-                              'MODEL2',...  % Fig S15B, Unifacial leaf
-                              'MODEL3',...  % Fig S15C, Peltate leaf
-                              'MODEL4',...  % Fig S15D, Simple petal
-                              'MODEL5',...  % Fig S15E, Peltately palmate compound leaf
-                              'MODEL6',...  % Fig S15F, Pinnate compound leaf
+                'modelname', {'MODEL1',...  % Fig S14A, Simple leaf
+                              'MODEL2',...  % Fig S14B, Unifacial leaf
+                              'MODEL3',...  % Fig S14C, Peltate leaf
+                              'MODEL4',...  % Fig S14D, Simple petal
+                              'MODEL5',...  % Fig S14E, Peltately palmate compound leaf
+                              'MODEL6',...  % Fig S14F, Pinnate compound leaf
                              }, 'MODEL1' ... % Model version name
                 ... % Add further lines for all the options that you want.
             );
